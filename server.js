@@ -172,13 +172,17 @@ Jumlah: ${dataSpam[from].jumlah}
 Jam: ${dataSpam[from].kapan}`);
 
         // Menjadwalkan pengiriman pesan
+        // Menjadwalkan pengiriman pesan dengan jeda 5 detik antara setiap pesan
+setTimeout(async () => {
+    for (let i = 0; i < dataSpam[from].jumlah; i++) {
         setTimeout(async () => {
-            for (let i = 0; i < dataSpam[from].jumlah; i++) {
-                await client.sendMessage(dataSpam[from].tujuan, `${dataSpam[from].pesan}`);
-            }
-            // Hapus data setelah selesai
-            delete dataSpam[from];
-        }, selisih);
+            await client.sendMessage(dataSpam[from].tujuan, `${dataSpam[from].pesan}`);
+        }, i * 5000); // Jeda 5 detik antara setiap pesan (5000 milidetik)
+    }
+    // Hapus data setelah selesai
+    delete dataSpam[from];
+}, selisih);
+
 
     } else {
         await message.reply(message.body);
